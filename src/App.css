@@ -23,6 +23,23 @@ h1 {
   border-radius: 4px;
 }
 
+.filters button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.filters button:hover {
+  opacity: 0.9;
+}
+
+.generate-ai-btn {
+  background-color: #28a745;
+  color: white;
+}
+
 .articles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

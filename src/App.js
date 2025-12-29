@@ -92,7 +92,7 @@ function ArticleList() {
           <option value="original">Original</option>
           <option value="ai_updated">AI-Updated</option>
         </select>
-        <button onClick={triggerAIUpdate} style={{ backgroundColor: '#28a745', color: 'white' }}>
+        <button onClick={triggerAIUpdate} className="generate-ai-btn">
           Generate AI Updates
         </button>
       </div>
