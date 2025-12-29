@@ -92,8 +92,8 @@ function ArticleList() {
           <option value="original">Original</option>
           <option value="ai_updated">AI-Updated</option>
         </select>
-        <button onClick={triggerAIUpdate} className="generate-ai-btn">
-          Generate AI Updates
+        <button onClick={() => fetchArticles(page)} className="refresh-btn">
+          Refresh List
         </button>
       </div>
 
