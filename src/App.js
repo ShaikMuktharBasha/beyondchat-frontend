@@ -47,14 +47,24 @@ function ArticleList() {
   const fetchArticles = async (pageNumber) => {
     try {
       setLoading(true);
+      setError(null);
       const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
       console.log('Fetching from:', API_URL);
-      const response = await axios.get(`${API_URL}/api/articles?page=${pageNumber}&limit=${LIMIT}`);
-      setArticles(response.data.data.articles);
-      setTotalPages(response.data.data.pagination.totalPages);
+      
+      try {
+        const response = await axios.get(`${API_URL}/api/articles?page=${pageNumber}&limit=${LIMIT}`);
+        setArticles(response.data.data.articles);
+        setTotalPages(response.data.data.pagination.totalPages);
+      } catch (firstError) {
+        console.warn('First fetch failed, retrying in 2 seconds (Cold Start)...', firstError);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const response = await axios.get(`${API_URL}/api/articles?page=${pageNumber}&limit=${LIMIT}`);
+        setArticles(response.data.data.articles);
+        setTotalPages(response.data.data.pagination.totalPages);
+      }
     } catch (error) {
       console.error('Error fetching articles:', error);
-      setError('Failed to load articles. Check if backend is running.');
+      setError('Failed to load articles. Backend might be waking up. Please click Refresh.');
     } finally {
       setLoading(false);
     }
