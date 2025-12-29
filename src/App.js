@@ -60,6 +60,21 @@ function ArticleList() {
     }
   };
 
+  const triggerAIUpdate = async () => {
+    try {
+      setLoading(true);
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+      await axios.post(`${API_URL}/api/update-articles`);
+      alert('AI Update process started! It may take a few minutes. Refresh later.');
+      fetchArticles(page); // Refresh list
+    } catch (error) {
+      console.error('Error triggering AI update:', error);
+      alert('Failed to start AI update.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <h1>BeyondChats Articles</h1>
@@ -77,6 +92,9 @@ function ArticleList() {
           <option value="original">Original</option>
           <option value="ai_updated">AI-Updated</option>
         </select>
+        <button onClick={triggerAIUpdate} style={{ backgroundColor: '#28a745', color: 'white' }}>
+          Generate AI Updates
+        </button>
       </div>
 
       {loading ? <p>Loading...</p> : (
@@ -125,7 +143,8 @@ function ArticleDetail() {
 
   const fetchArticle = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/articles/${id}`);
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+      const response = await axios.get(`${API_URL}/api/articles/${id}`);
       setArticle(response.data);
     } catch (error) {
       console.error('Error fetching article:', error);
